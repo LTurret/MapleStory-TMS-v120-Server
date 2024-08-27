@@ -51,7 +51,7 @@ public class Start {
         LoginInformationProvider.getInstance();
         MapleQuest.initQuests();
         MapleLifeFactory.loadQuestCounts();
-//        ItemMakerFactory.getInstance();
+        // ItemMakerFactory.getInstance();
         MapleItemInformationProvider.getInstance().load();
 		System.out.println("[載入髮型臉部物件]");
 		MapleItemInformationProvider.getInstance().loadStyles(false);
