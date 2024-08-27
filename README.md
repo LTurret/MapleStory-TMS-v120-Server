@@ -8,9 +8,6 @@ Future work will be tracked and documented in the Issues tab.
 
 ### Project
 
-> [!CAUTION]  
-> **To all potential contributors**: This source code was originally derived from the **OdinMS Maple Story Server**. While the initial license was GPL, this repository is now under the MIT license. Please note that some copyright claims may require further review.
-
 - [ ] Clean up former ass shit.
 - [ ] Compile validation.
 - [ ] Compile information.
@@ -66,3 +63,12 @@ and distribute the ZIP file.
 >   in the Projects window and choose Properties. Then click Run and enter the
 >   class name in the Main Class field. Alternatively, you can manually type the
 >   class name in the manifest Main-Class element.
+
+## License
+
+This project is dual-licensed under the MIT and GPL-3.0 licenses.
+
+- The original code and any modifications to it are licensed under the [GPL-3.0 license](./LICENSE-GPL).
+- Any new code added by **LTurret** that does not modify the original GPL code is licensed under the [MIT license](./LICENSE-MIT).
+
+You may choose to use, modify, and distribute this project under either of these licenses.
