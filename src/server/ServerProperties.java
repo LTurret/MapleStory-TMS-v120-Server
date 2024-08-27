@@ -10,10 +10,10 @@ import database.DatabaseConnection;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-/**
- *
- * @author Emilyx3
- */
+/* 
+@author Emilyx3
+*/
+
 public class ServerProperties {
 
     private static final Properties props = new Properties();
