@@ -134,7 +134,7 @@ public abstract class Timer {
         if (ses != null && !ses.isShutdown() && !ses.isTerminated()) {
             return;
         }
-        file = "Logs/Log_" + name + "_Except.rtf";
+        file = "log/Log_" + name + "_Except.rtf";
         final String tname = name + Randomizer.nextInt(); //just to randomize it. nothing too big
         final ThreadFactory thread = new ThreadFactory() {
 

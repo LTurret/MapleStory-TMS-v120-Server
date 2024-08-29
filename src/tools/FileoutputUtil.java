@@ -30,17 +30,17 @@ import java.io.FileOutputStream;
 public class FileoutputUtil {
 
     // Logging output file
-    public static final String Acc_Stuck = "Logs/Log_AccountStuck.rtf",
-            Login_Error = "Logs/Log_Login_Error.rtf",
+    public static final String Acc_Stuck = "log/Log_AccountStuck.rtf",
+            Login_Error = "log/Log_Login_Error.rtf",
             //Timer_Log = "Log_Timer_Except.rtf",
             //MapTimer_Log = "Log_MapTimer_Except.rtf",
-            IP_Log = "Logs/Log_AccountIP.rtf",
+            IP_Log = "log/Log_AccountIP.rtf",
             //GMCommand_Log = "Log_GMCommand.rtf",
-            Zakum_Log = "Logs/Log_Zakum.rtf",
-            Horntail_Log = "Logs/Log_Horntail.rtf",
-            Pinkbean_Log = "Logs/Log_Pinkbean.rtf",
-            ScriptEx_Log = "Logs/Log_Script_Except.rtf",
-            PacketEx_Log = "Logs/Log_Packet_Except.rtf" // I cba looking for every error, adding this back in.
+            Zakum_Log = "log/Log_Zakum.rtf",
+            Horntail_Log = "log/Log_Horntail.rtf",
+            Pinkbean_Log = "log/Log_Pinkbean.rtf",
+            ScriptEx_Log = "log/Log_Script_Except.rtf",
+            PacketEx_Log = "log/Log_Packet_Except.rtf" // I cba looking for every error, adding this back in.
             + "";
     // End
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

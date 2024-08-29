@@ -72,7 +72,7 @@ public class MapleServerHandler extends IoHandlerAdapter implements MapleServerH
     //Screw locking. Doesn't matter.
 //    private static final ReentrantReadWriteLock IPLoggingLock = new ReentrantReadWriteLock();
     private static final String nl = System.getProperty("line.separator");
-    private static final File loggedIPs = new File("Logs/LogIPs.txt");
+    private static final File loggedIPs = new File("log/IP.txt");
     private static final HashMap<String, FileWriter> logIPMap = new HashMap<String, FileWriter>();
     private static boolean debugMode = Boolean.parseBoolean(ServerProperties.getProperty("tms.Debug", "false"));
     //Note to Zero: Use an enumset. Don't iterate through an array.
@@ -400,7 +400,7 @@ public class MapleServerHandler extends IoHandlerAdapter implements MapleServerH
                     }
                     if (c.getPlayer() != null && c.isMonitored()) {
                         if (!blocked.contains(recv)) {
-                            FileWriter fw = new FileWriter(new File("Logs/MonitorLogs/" + c.getPlayer().getName() + "_log.txt"), true);
+                            FileWriter fw = new FileWriter(new File("log/Monitorlog/" + c.getPlayer().getName() + "_log.txt"), true);
                             fw.write(String.valueOf(recv) + " (" + Integer.toHexString(header_num) + ") Handled: \r\n" + slea.toString() + "\r\n");
                             fw.flush();
                             fw.close();
