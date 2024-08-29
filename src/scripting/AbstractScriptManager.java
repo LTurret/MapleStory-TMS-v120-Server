@@ -55,7 +55,7 @@ public abstract class AbstractScriptManager {
         InputStream in = null;
         try {
             
-            path = "Libs/scripts/" + path;
+            path = "lib/scripts/" + path;
             ScriptEngine engine = null;
 
             if (c != null) {
