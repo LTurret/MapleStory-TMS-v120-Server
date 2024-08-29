@@ -216,7 +216,7 @@ public enum RecvPacketOpcode implements WritableIntValueHolder {
 
     public static Properties getDefaultProperties() throws FileNotFoundException, IOException {
         Properties props = new Properties();
-        FileInputStream fileInputStream = new FileInputStream("Libs/opcode/recv.ini");
+        FileInputStream fileInputStream = new FileInputStream("lib/opcode/recv.ini");
         props.load(fileInputStream);
         fileInputStream.close();
         return props;
