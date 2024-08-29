@@ -1,0 +1,6 @@
+lib/jar/mysql-connector-java-bin.jar    filter=lfs diff=lfs merge=lfs -text
+lib/jar/slf4j-api.jar                   filter=lfs diff=lfs merge=lfs -text
+lib/jar/slf4j-jdk14.jar                 filter=lfs diff=lfs merge=lfs -text
+lib/jar/US_export_policy.jar            filter=lfs diff=lfs merge=lfs -text
+lib/jar/local_policy.jar                filter=lfs diff=lfs merge=lfs -text
+lib/jar/mina-core.jar                   filter=lfs diff=lfs merge=lfs -text
