@@ -18,6 +18,7 @@
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package client.inventory;
 
 import constants.GameConstants;
@@ -27,16 +28,13 @@ import server.Randomizer;
 public class Equip extends Item implements IEquip, Serializable {
 
     private byte upgradeSlots = 0, level = 0, vicioushammer = 0, enhance = 0;
-    private short str = 0, dex = 0, _int = 0, luk = 0, hp = 0, mp = 0, watk = 0, matk = 0, wdef = 0, mdef = 0, acc = 0, avoid = 0, hands = 0, speed = 0, jump = 0, potential1 = 0, potential2 = 0, potential3 = 0, hpR = 0, mpR = 0;
+    private short str = 0, dex = 0, _int = 0, luk = 0, hp = 0, mp = 0, watk = 0, matk = 0, wdef = 0, mdef = 0, acc = 0, avoid = 0, hands = 0, speed = 0,
+            jump = 0, potential1 = 0, potential2 = 0, potential3 = 0, hpR = 0, mpR = 0;
     private int itemEXP = 0, durability = -1;
 
-    public Equip(int id, short position, byte flag) {
-        super(id, position, (short) 1, flag);
-    }
+    public Equip(int id, short position, byte flag) { super(id, position, (short) 1, flag); }
 
-    public Equip(int id, short position, int uniqueid, byte flag) {
-        super(id, position, (short) 1, flag, uniqueid);
-    }
+    public Equip(int id, short position, int uniqueid, byte flag) { super(id, position, (short) 1, flag, uniqueid); }
 
     @Override
     public IItem copy() {
@@ -75,89 +73,55 @@ public class Equip extends Item implements IEquip, Serializable {
     }
 
     @Override
-    public byte getType() {
-        return 1;
-    }
+    public byte getType() { return 1; }
 
     @Override
-    public byte getUpgradeSlots() {
-        return upgradeSlots;
-    }
+    public byte getUpgradeSlots() { return upgradeSlots; }
 
     @Override
-    public short getStr() {
-        return str;
-    }
+    public short getStr() { return str; }
 
     @Override
-    public short getDex() {
-        return dex;
-    }
+    public short getDex() { return dex; }
 
     @Override
-    public short getInt() {
-        return _int;
-    }
+    public short getInt() { return _int; }
 
     @Override
-    public short getLuk() {
-        return luk;
-    }
+    public short getLuk() { return luk; }
 
     @Override
-    public short getHp() {
-        return hp;
-    }
+    public short getHp() { return hp; }
 
     @Override
-    public short getMp() {
-        return mp;
-    }
+    public short getMp() { return mp; }
 
     @Override
-    public short getWatk() {
-        return watk;
-    }
+    public short getWatk() { return watk; }
 
     @Override
-    public short getMatk() {
-        return matk;
-    }
+    public short getMatk() { return matk; }
 
     @Override
-    public short getWdef() {
-        return wdef;
-    }
+    public short getWdef() { return wdef; }
 
     @Override
-    public short getMdef() {
-        return mdef;
-    }
+    public short getMdef() { return mdef; }
 
     @Override
-    public short getAcc() {
-        return acc;
-    }
+    public short getAcc() { return acc; }
 
     @Override
-    public short getAvoid() {
-        return avoid;
-    }
+    public short getAvoid() { return avoid; }
 
     @Override
-    public short getHands() {
-        return hands;
-    }
+    public short getHands() { return hands; }
 
     @Override
-    public short getSpeed() {
-        return speed;
-    }
+    public short getSpeed() { return speed; }
 
     @Override
-    public short getJump() {
-        return jump;
-    }
+    public short getJump() { return jump; }
 
     public void setStr(short str) {
         if (str < 0) {
@@ -264,32 +228,20 @@ public class Equip extends Item implements IEquip, Serializable {
         this.jump = jump;
     }
 
-    public void setUpgradeSlots(byte upgradeSlots) {
-        this.upgradeSlots = upgradeSlots;
-    }
+    public void setUpgradeSlots(byte upgradeSlots) { this.upgradeSlots = upgradeSlots; }
 
     @Override
-    public byte getLevel() {
-        return level;
-    }
+    public byte getLevel() { return level; }
 
-    public void setLevel(byte level) {
-        this.level = level;
-    }
+    public void setLevel(byte level) { this.level = level; }
 
     @Override
-    public byte getViciousHammer() {
-        return vicioushammer;
-    }
+    public byte getViciousHammer() { return vicioushammer; }
 
-    public void setViciousHammer(byte ham) {
-        vicioushammer = ham;
-    }
+    public void setViciousHammer(byte ham) { vicioushammer = ham; }
 
     @Override
-    public int getItemEXP() {
-        return itemEXP;
-    }
+    public int getItemEXP() { return itemEXP; }
 
     public void setItemEXP(int itemEXP) {
         if (itemEXP < 0) {
@@ -303,7 +255,7 @@ public class Equip extends Item implements IEquip, Serializable {
         if (itemEXP <= 0) {
             return 0;
         }
-        //aproximate value
+        // aproximate value
         if (GameConstants.isWeapon(getItemId())) {
             return itemEXP / IEquip.WEAPON_RATIO;
         } else {
@@ -320,7 +272,7 @@ public class Equip extends Item implements IEquip, Serializable {
         for (int i = getBaseLevel(); i <= GameConstants.getMaxLevel(getItemId()); i++) {
             if (expz >= GameConstants.getExpForLevel(i, getItemId())) {
                 expz -= GameConstants.getExpForLevel(i, getItemId());
-            } else { //for 0, dont continue;
+            } else { // for 0, dont continue;
                 break;
             }
         }
@@ -329,7 +281,8 @@ public class Equip extends Item implements IEquip, Serializable {
 
     @Override
     public int getExpPercentage() {
-        if (getEquipLevel() < getBaseLevel() || getEquipLevel() > GameConstants.getMaxLevel(getItemId()) || GameConstants.getExpForLevel(getEquipLevel(), getItemId()) <= 0) {
+        if (getEquipLevel() < getBaseLevel() || getEquipLevel() > GameConstants.getMaxLevel(getItemId())
+                || GameConstants.getExpForLevel(getEquipLevel(), getItemId()) <= 0) {
             return 0;
         }
         return getEquipExpForLevel() * 100 / GameConstants.getExpForLevel(getEquipLevel(), getItemId());
@@ -344,11 +297,12 @@ public class Equip extends Item implements IEquip, Serializable {
         }
         int levelz = getBaseLevel();
         int expz = getEquipExp();
-        for (int i = levelz; (GameConstants.getStatFromWeapon(getItemId()) == null ? (i <= GameConstants.getMaxLevel(getItemId())) : (i < GameConstants.getMaxLevel(getItemId()))); i++) {
+        for (int i = levelz; (GameConstants.getStatFromWeapon(getItemId()) == null ? (i <= GameConstants.getMaxLevel(getItemId()))
+                : (i < GameConstants.getMaxLevel(getItemId()))); i++) {
             if (expz >= GameConstants.getExpForLevel(i, getItemId())) {
                 levelz++;
                 expz -= GameConstants.getExpForLevel(i, getItemId());
-            } else { //for 0, dont continue;
+            } else { // for 0, dont continue;
                 break;
             }
         }
@@ -356,9 +310,7 @@ public class Equip extends Item implements IEquip, Serializable {
     }
 
     @Override
-    public int getBaseLevel() {
-        return (GameConstants.getStatFromWeapon(getItemId()) == null ? 1 : 0);
-    }
+    public int getBaseLevel() { return (GameConstants.getStatFromWeapon(getItemId()) == null ? 1 : 0); }
 
     @Override
     public void setQuantity(short quantity) {
@@ -369,49 +321,29 @@ public class Equip extends Item implements IEquip, Serializable {
     }
 
     @Override
-    public int getDurability() {
-        return durability;
-    }
+    public int getDurability() { return durability; }
 
-    public void setDurability(final int dur) {
-        this.durability = dur;
-    }
+    public void setDurability(final int dur) { this.durability = dur; }
 
     @Override
-    public byte getEnhance() {
-        return enhance;
-    }
+    public byte getEnhance() { return enhance; }
 
-    public void setEnhance(final byte en) {
-        this.enhance = en;
-    }
+    public void setEnhance(final byte en) { this.enhance = en; }
 
     @Override
-    public short getPotential1() {
-        return potential1;
-    }
+    public short getPotential1() { return potential1; }
 
-    public void setPotential1(final short en) {
-        this.potential1 = en;
-    }
+    public void setPotential1(final short en) { this.potential1 = en; }
 
     @Override
-    public short getPotential2() {
-        return potential2;
-    }
+    public short getPotential2() { return potential2; }
 
-    public void setPotential2(final short en) {
-        this.potential2 = en;
-    }
+    public void setPotential2(final short en) { this.potential2 = en; }
 
     @Override
-    public short getPotential3() {
-        return potential3;
-    }
+    public short getPotential3() { return potential3; }
 
-    public void setPotential3(final short en) {
-        this.potential3 = en;
-    }
+    public void setPotential3(final short en) { this.potential3 = en; }
 
     @Override
     public byte getState() {
@@ -428,37 +360,29 @@ public class Equip extends Item implements IEquip, Serializable {
         return 0;
     }
 
-    public void resetPotential() { //equip first receive
-        //0.04% chance unique, 4% chance epic, else rare
+    public void resetPotential() { // equip first receive
+        // 0.04% chance unique, 4% chance epic, else rare
         final int rank = Randomizer.nextInt(100) < 4 ? (Randomizer.nextInt(100) < 4 ? -7 : -6) : -5;
         setPotential1((short) rank);
-        setPotential2((short) (Randomizer.nextInt(10) == 1 ? rank : 0)); //1/10 chance of 3 line
-        setPotential3((short) 0); //just set it theoretically
+        setPotential2((short) (Randomizer.nextInt(10) == 1 ? rank : 0)); // 1/10 chance of 3 line
+        setPotential3((short) 0); // just set it theoretically
     }
 
     public void renewPotential() {
-        //4% chance upgrade
+        // 4% chance upgrade
         final int rank = Randomizer.nextInt(100) < 4 && getState() != 7 ? -(getState() + 1) : -(getState());
         setPotential1((short) rank);
-        setPotential2((short) (getPotential3() > 0 ? rank : 0)); //1/10 chance of 3 line
-        setPotential3((short) 0); //just set it theoretically
+        setPotential2((short) (getPotential3() > 0 ? rank : 0)); // 1/10 chance of 3 line
+        setPotential3((short) 0); // just set it theoretically
     }
 
     @Override
-    public short getHpR() {
-        return hpR;
-    }
+    public short getHpR() { return hpR; }
 
-    public void setHpR(final short hp) {
-        this.hpR = hp;
-    }
+    public void setHpR(final short hp) { this.hpR = hp; }
 
     @Override
-    public short getMpR() {
-        return mpR;
-    }
+    public short getMpR() { return mpR; }
 
-    public void setMpR(final short mp) {
-        this.mpR = mp;
-    }
+    public void setMpR(final short mp) { this.mpR = mp; }
 }

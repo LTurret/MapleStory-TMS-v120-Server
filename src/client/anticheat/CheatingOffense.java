@@ -18,6 +18,7 @@
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package client.anticheat;
 
 public enum CheatingOffense {
@@ -45,7 +46,7 @@ public enum CheatingOffense {
     USING_FARAWAY_PORTAL((byte) 1, 60000, 100, (byte) 0),
     AST_TAKE_DAMAG((byte) 1, 60000, 100),
     HIGH_AVOID((byte) 20, 180000, 100, (byte) 3),
-    //    FAST_MOVE((byte) 1, 60000),
+    // FAST_MOVE((byte) 1, 60000),
     HIGH_JUMP((byte) 1, 60000),
     MISMATCHING_BULLETCOUNT((byte) 1, 300000),
     ETC_EXPLOSION((byte) 1, 300000),
