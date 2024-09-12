@@ -1,6 +1,6 @@
-# MapleStory-v120-Server-Eimulator
+# MapleStory-TMS-v120-Server
 
-A server dedicated to hosting the Taiwan MapleStory version 1.20.
+A server dedicated to hosting the Taiwan MapleStory version 1.20 Server.
 
 ## TODO
 
