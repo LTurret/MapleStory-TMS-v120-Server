@@ -18,6 +18,7 @@
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package client;
 
 import java.io.File;
@@ -40,7 +41,8 @@ public class SkillFactory {
     private static final Map<Integer, ISkill> skills = new HashMap<Integer, ISkill>();
     private static final Map<Integer, List<Integer>> skillsByJob = new HashMap<Integer, List<Integer>>();
     private static final Map<Integer, SummonSkillEntry> SummonSkillInformation = new HashMap<Integer, SummonSkillEntry>();
-    private final static MapleData stringData = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("net.sf.odinms.wzpath") + "/String.wz")).getData("Skill.img");
+    private final static MapleData stringData = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("net.sf.odinms.wzpath") + "/String.wz"))
+            .getData("Skill.img");
 
     public static final ISkill getSkill(final int id) {
         if (skills.size() != 0) {
@@ -90,9 +92,7 @@ public class SkillFactory {
         return null;
     }
 
-    public static final List<Integer> getSkillsByJob(final int jobId) {
-        return skillsByJob.get(jobId);
-    }
+    public static final List<Integer> getSkillsByJob(final int jobId) { return skillsByJob.get(jobId); }
 
     public static final String getSkillName(final int id) {
         ISkill skil = getSkill(id);
@@ -112,11 +112,7 @@ public class SkillFactory {
         return null;
     }
 
-    public static final SummonSkillEntry getSummonData(final int skillid) {
-        return SummonSkillInformation.get(skillid);
-    }
+    public static final SummonSkillEntry getSummonData(final int skillid) { return SummonSkillInformation.get(skillid); }
 
-    public static final Collection<ISkill> getAllSkills() {
-        return skills.values();
-    }
+    public static final Collection<ISkill> getAllSkills() { return skills.values(); }
 }

@@ -1,23 +1,20 @@
 package server;
 
 import client.SkillFactory;
-import constants.ServerConstants;
+import database.DatabaseConnection;
 import handling.MapleServerHandler;
+import handling.cashshop.CashShopServer;
 import handling.channel.ChannelServer;
 import handling.channel.MapleGuildRanking;
-import handling.login.LoginServer;
-import handling.cashshop.CashShopServer;
 import handling.login.LoginInformationProvider;
+import handling.login.LoginServer;
 import handling.world.World;
-import java.sql.SQLException;
-import database.DatabaseConnection;
 import handling.world.family.MapleFamilyBuff;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+// import java.io.BufferedReader;
+// import java.io.IOException;
+// import java.io.InputStreamReader;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.SQLException;
 import server.Timer.*;
 import server.events.MapleOxQuizFactory;
 import server.life.MapleLifeFactory;
@@ -25,13 +22,16 @@ import server.quest.MapleQuest;
 
 public class Start {
 
-    public final static void main(final String args[]) {
+    public static final void main(final String args[]) {
+        // Server status, check for "Admin-only".
         if (Boolean.parseBoolean(ServerProperties.getProperty("tms.Admin"))) {
-            System.out.println("[!!! 管理員模式 !!!]");
+            System.out.println("Server currently set to \"Admin-only\" :::");
         }
+        // Status status, check for "Enable-registeration".
         if (Boolean.parseBoolean(ServerProperties.getProperty("tms.AutoRegister"))) {
-            System.out.println("開啟註冊模式 :::");
+            System.out.println("Server currently set to \"Enable-registration\" :::");
         }
+
         try {
             final PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("UPDATE accounts SET loggedin = 0");
             ps.executeUpdate();
@@ -40,6 +40,7 @@ public class Start {
             throw new RuntimeException("[EXCEPTION] Please check if the SQL server is active.");
         }
 
+        // Game functionality initialization.
         World.init();
         WorldTimer.getInstance().start();
         EtcTimer.getInstance().start();
@@ -53,8 +54,7 @@ public class Start {
         MapleLifeFactory.loadQuestCounts();
         // ItemMakerFactory.getInstance();
         MapleItemInformationProvider.getInstance().load();
-		System.out.println("[載入髮型臉部物件]");
-		MapleItemInformationProvider.getInstance().loadStyles(false);
+        MapleItemInformationProvider.getInstance().loadStyles(false);
         RandomRewards.getInstance();
         SkillFactory.getSkill(99999999);
         MapleOxQuizFactory.getInstance().initialize();
@@ -67,30 +67,24 @@ public class Start {
         CashItemFactory.getInstance().initialize();
         LoginServer.run_startup_configurations();
         ChannelServer.startChannel_Main();
-
-        System.out.println("[購物商城伺服器啟動中]");
         CashShopServer.run_startup_configurations();
-        System.out.println("[購物商城伺服器啟動完成]");
         CheatTimer.getInstance().register(AutobanManager.getInstance(), 60000);
         Runtime.getRuntime().addShutdownHook(new Thread(new Shutdown()));
         try {
             SpeedRunner.getInstance().loadSpeedRuns();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
         World.registerRespawn();
         LoginServer.setOn();
-        System.out.println("加載完成 :::");
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.gc();
-        PingTimer.getInstance().register(System::gc, 1800000);   
+        System.out.println(String.format("Server is hosting on: %s", ServerProperties.getProperty("tms.IP")));
+        System.gc();
+        PingTimer.getInstance().register(System::gc, 1800000);
     }
 
     public static class Shutdown implements Runnable {
 
         @Override
-        public void run() {
-            new Thread(ShutdownServer.getInstance()).start();
-        }
+        public void run() { new Thread(ShutdownServer.getInstance()).start(); }
     }
 }

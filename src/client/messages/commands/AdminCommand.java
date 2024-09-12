@@ -90,15 +90,13 @@ import tools.packet.PlayerShopPacket;
 import com.mysql.jdbc.Connection;
 import java.util.concurrent.ScheduledFuture;
 
-/**
- *
+/*
  * @author Emilyx3
  */
+
 public class AdminCommand {
 
-    public static PlayerGMRank getPlayerLevelRequired() {
-        return PlayerGMRank.ADMIN;
-    }
+    public static PlayerGMRank getPlayerLevelRequired() { return PlayerGMRank.ADMIN; }
 
     public static class Shutdown_01 extends CommandExecute {
 
@@ -107,11 +105,12 @@ public class AdminCommand {
             for (handling.channel.ChannelServer cserv : handling.channel.ChannelServer.getAllInstances()) {
                 cserv.closeAllMerchant();
             }
-            c.getPlayer().dropMessage(6, "精靈商人儲存完畢.");
+            c.getPlayer().dropMessage(6, "精靈商人儲存完畢。");
             return 1;
 
         }
     }
+
 
     public static class Shutdown_02 extends CommandExecute {
 
@@ -119,25 +118,27 @@ public class AdminCommand {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            c.getPlayer().dropMessage(6, "關閉中...");
+            c.getPlayer().dropMessage(6, "關閉中。");
             if (t == null || !t.isAlive()) {
                 t = new Thread(server.ShutdownServer.getInstance());
                 t.start();
             } else {
-                c.getPlayer().dropMessage(6, "已在執行中...");
+                c.getPlayer().dropMessage(6, "已在執行中。");
             }
             return 1;
         }
     }
+
+
     public static class ShutdownTime extends CommandExecute {
 
         private static ScheduledFuture<?> ts = null;
         private int minutesLeft = 0;
-       private static Thread t = null;
+        private static Thread t = null;
 
         public int execute(MapleClient c, String[] splitted) {
             minutesLeft = Integer.parseInt(splitted[1]);
-             c.getPlayer().dropMessage(6, "伺服器即將在" + minutesLeft + "分鐘後關閉. 請盡速關閉精靈商人 並下線.");
+            c.getPlayer().dropMessage(6, "伺服器即將在 " + minutesLeft + "分鐘後關閉。請盡速關閉精靈商人並下線。");
             if (ts == null && (t == null || !t.isAlive())) {
                 t = new Thread(ShutdownServer.getInstance());
                 ts = EventTimer.getInstance().register(new Runnable() {
@@ -145,34 +146,37 @@ public class AdminCommand {
                     @Override
                     public void run() {
                         if (minutesLeft == 0) {
-			ShutdownServer.getInstance();
+                            ShutdownServer.getInstance();
                             t.start();
                             ts.cancel(false);
-			return;
+                            return;
                         }
-                        World.Broadcast.broadcastMessage(MaplePacketCreator.serverNotice(0, "伺服器即將在 " + minutesLeft + "分鐘後關閉. 請盡速關閉精靈商人 並下線.").getBytes());;
-                        System.out.println("伺服器即將在 " + minutesLeft + "分鐘後關閉.");
+                        World.Broadcast.broadcastMessage(MaplePacketCreator.serverNotice(0, "伺服器即將在 " + minutesLeft + "分鐘後關閉。請盡速關閉精靈商人並下線。").getBytes());;
+                        System.out.println("伺服器即將在 " + minutesLeft + "分鐘後關閉。");
                         minutesLeft--;
                     }
                 }, 60000);
             } else {
-                c.getPlayer().dropMessage(6, "好吧真拿你沒辦法..伺服器關閉時間修改...請等待關閉完畢..請勿強制關閉服務器..否則後果自負!");
+                c.getPlayer().dropMessage(6, "指令已確認。伺服器關閉時間修改，請等待關閉完畢。請勿強制關閉服務器。");
             }
             return 1;
         }
     }
+
+
     public static class saveall extends CommandExecute {
         private int p = 0;
-        public int execute(MapleClient c, String[] splitted) {      
-			for (ChannelServer cserv : ChannelServer.getAllInstances()) {
-				for (MapleCharacter chr : cserv.getPlayerStorage().getAllCharacters()) {
-					p++;
-					chr.saveToDB(false, true);
-				}
-			}
-			c.getPlayer().dropMessage("[保存] "+p+"個玩家數據保存到數據中.");
-			return 0;
-		}
+
+        public int execute(MapleClient c, String[] splitted) {
+            for (ChannelServer cserv : ChannelServer.getAllInstances()) {
+                for (MapleCharacter chr : cserv.getPlayerStorage().getAllCharacters()) {
+                    p++;
+                    chr.saveToDB(false, true);
+                }
+            }
+            c.getPlayer().dropMessage("[儲存] " + p + "個玩家資料儲存到資料庫中.");
+            return 0;
+        }
     }
 
 
@@ -188,6 +192,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Heal extends CommandExecute {
 
         @Override
@@ -200,6 +205,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadIPMonitor extends CommandExecute {
 
         @Override
@@ -210,12 +216,12 @@ public class AdminCommand {
 
     }
 
+
     public static class HellBan extends Ban {
 
-        public HellBan() {
-            hellban = true;
-        }
+        public HellBan() { hellban = true; }
     }
+
 
     public static class Ban extends CommandExecute {
 
@@ -253,7 +259,8 @@ public class AdminCommand {
                     return 1;
                 }
             } else {
-                if (MapleCharacter.ban(splitted[1], sb.toString(), false, c.getPlayer().isAdmin() ? 250 : c.getPlayer().getGMLevel(), splitted[0].equals("!hellban"))) {
+                if (MapleCharacter.ban(splitted[1], sb.toString(), false, c.getPlayer().isAdmin() ? 250 : c.getPlayer().getGMLevel(),
+                        splitted[0].equals("!hellban"))) {
                     c.getPlayer().dropMessage(6, "[" + getCommand() + "] Successfully offline banned " + splitted[1] + ".");
                     return 1;
                 } else {
@@ -264,12 +271,12 @@ public class AdminCommand {
         }
     }
 
+
     public static class UnHellBan extends UnBan {
 
-        public UnHellBan() {
-            hellban = true;
-        }
+        public UnHellBan() { hellban = true; }
     }
+
 
     public static class UnBan extends CommandExecute {
 
@@ -321,6 +328,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class UnbanIP extends CommandExecute {
 
         @Override
@@ -348,6 +356,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class TempBan extends CommandExecute {
 
         @Override
@@ -369,6 +378,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class DC extends CommandExecute {
 
@@ -394,6 +404,7 @@ public class AdminCommand {
             }
         }
     }
+
 
     public static class Kill extends CommandExecute {
 
@@ -421,6 +432,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Skill extends CommandExecute {
 
         @Override
@@ -436,6 +448,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Fame extends CommandExecute {
 
@@ -455,12 +468,13 @@ public class AdminCommand {
                 return 0;
             }
             if (victim != null && player.allowedToTarget(victim)) {
-                //victim.addFame(fame);
+                // victim.addFame(fame);
                 victim.updateSingleStat(MapleStat.FAME, victim.getFame());
             }
             return 1;
         }
     }
+
 
     public static class HealHere extends CommandExecute {
 
@@ -479,6 +493,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Invincible extends CommandExecute {
 
         @Override
@@ -486,14 +501,15 @@ public class AdminCommand {
             MapleCharacter player = c.getPlayer();
             if (player.isInvincible()) {
                 player.setInvincible(false);
-                player.dropMessage(6, "無敵已經關閉");
+                player.dropMessage(6, "無敵已經關閉。");
             } else {
                 player.setInvincible(true);
-                player.dropMessage(6, "無敵已經開啟.");
+                player.dropMessage(6, "無敵已經開啟。");
             }
             return 1;
         }
     }
+
 
     public static class GiveSkill extends CommandExecute {
 
@@ -512,6 +528,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SP extends CommandExecute {
 
         @Override
@@ -521,6 +538,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class AP extends CommandExecute {
 
@@ -534,6 +552,7 @@ public class AdminCommand {
 
     }
 
+
     public static class Job extends CommandExecute {
 
         @Override
@@ -543,14 +562,17 @@ public class AdminCommand {
         }
     }
 
+
     public static class WhereAmI extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            c.getPlayer().dropMessage(5, "目前地圖 " + c.getPlayer().getMap().getId() + "座標 (" + String.valueOf(c.getPlayer().getPosition().x) + " , " + String.valueOf(c.getPlayer().getPosition().y) + ")");
+            c.getPlayer().dropMessage(5, "目前地圖 " + c.getPlayer().getMap().getId() + "座標 (" + String.valueOf(c.getPlayer().getPosition().x) + " , "
+                    + String.valueOf(c.getPlayer().getPosition().y) + ")");
             return 1;
         }
     }
+
 
     public static class Shop extends CommandExecute {
 
@@ -565,6 +587,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class GainMeso extends CommandExecute {
 
         @Override
@@ -574,12 +597,13 @@ public class AdminCommand {
         }
     }
 
+
     public static class GainCash extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 2) {
-                c.getPlayer().dropMessage(5, "需要數量參數.");
+                c.getPlayer().dropMessage(5, "需要數量參數。");
                 return 0;
             }
             c.getPlayer().modifyCSPoints(1, Integer.parseInt(splitted[1]), true);
@@ -587,12 +611,13 @@ public class AdminCommand {
         }
     }
 
+
     public static class GainMP extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 2) {
-                c.getPlayer().dropMessage(5, "需要數量參數.");
+                c.getPlayer().dropMessage(5, "需要數量參數。");
                 return 0;
             }
             c.getPlayer().modifyCSPoints(2, Integer.parseInt(splitted[1]), true);
@@ -600,12 +625,13 @@ public class AdminCommand {
         }
     }
 
+
     public static class GainP extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 2) {
-                c.getPlayer().dropMessage(5, "需要數量參數.");
+                c.getPlayer().dropMessage(5, "需要數量參數。");
                 return 0;
             }
             c.getPlayer().setPoints(c.getPlayer().getPoints() + Integer.parseInt(splitted[1]));
@@ -613,18 +639,20 @@ public class AdminCommand {
         }
     }
 
+
     public static class GainVP extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 2) {
-                c.getPlayer().dropMessage(5, "需要數量參數.");
+                c.getPlayer().dropMessage(5, "需要數量參數。");
                 return 0;
             }
             c.getPlayer().setVPoints(c.getPlayer().getVPoints() + Integer.parseInt(splitted[1]));
             return 1;
         }
     }
+
 
     public static class LevelUp extends CommandExecute {
 
@@ -636,6 +664,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class ClearInv extends CommandExecute {
 
@@ -682,6 +711,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class UnlockInv extends CommandExecute {
 
         @Override
@@ -694,12 +724,12 @@ public class AdminCommand {
                         if (ItemFlag.LOCK.check(item.getFlag())) {
                             item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                             add = true;
-                            //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                            // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                         }
                         if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                             item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                             add = true;
-                            //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                            // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                         }
                         if (add) {
                             eqs.put(item, type);
@@ -712,12 +742,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.EQUIP);
@@ -729,12 +759,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.EQUIP);
@@ -746,12 +776,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.USE);
@@ -763,12 +793,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.SETUP);
@@ -780,12 +810,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.ETC);
@@ -797,12 +827,12 @@ public class AdminCommand {
                     if (ItemFlag.LOCK.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.LOCK.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (ItemFlag.UNTRADEABLE.check(item.getFlag())) {
                         item.setFlag((byte) (item.getFlag() - ItemFlag.UNTRADEABLE.getValue()));
                         add = true;
-                        //c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                        // c.getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                     }
                     if (add) {
                         eqs.put(item, MapleInventoryType.CASH);
@@ -820,6 +850,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Item extends CommandExecute {
 
         @Override
@@ -830,16 +861,16 @@ public class AdminCommand {
             if (!c.getPlayer().isAdmin()) {
                 for (int i : GameConstants.itemBlock) {
                     if (itemId == i) {
-                        c.getPlayer().dropMessage(5, "很抱歉，此物品您的ＧＭ等級無法呼叫.");
+                        c.getPlayer().dropMessage(5, "很抱歉，此物品您的管理等級無法呼叫。");
                         return 0;
                     }
                 }
             }
             MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
             if (GameConstants.isPet(itemId)) {
-                c.getPlayer().dropMessage(5, "Please purchase a pet from the cash shop instead.");
+                c.getPlayer().dropMessage(5, "請改至現金商店購買寵物。");
             } else if (!ii.itemExists(itemId)) {
-                c.getPlayer().dropMessage(5, itemId + "  不存在");
+                c.getPlayer().dropMessage(5, itemId + " 不存在。");
             } else {
                 IItem item;
                 byte flag = 0;
@@ -864,6 +895,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Drop extends CommandExecute {
 
         @Override
@@ -872,7 +904,7 @@ public class AdminCommand {
             final short quantity = (short) CommandProcessorUtil.getOptionalIntArg(splitted, 2, 1);
             MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
             if (GameConstants.isPet(itemId)) {
-                c.getPlayer().dropMessage(5, "Please purchase a pet from the cash shop instead.");
+                c.getPlayer().dropMessage(5, "請改至現金商店購買寵物。");
             } else if (!ii.itemExists(itemId)) {
                 c.getPlayer().dropMessage(5, itemId + " does not exist");
             } else {
@@ -892,6 +924,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Level extends CommandExecute {
 
         @Override
@@ -905,6 +938,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Online extends CommandExecute {
 
         @Override
@@ -914,6 +948,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Say extends CommandExecute {
 
@@ -933,6 +968,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Letter extends CommandExecute {
 
@@ -988,21 +1024,22 @@ public class AdminCommand {
         }
     }
 
+
     public static class Marry extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 3) {
-                c.getPlayer().dropMessage(6, "指令規則 <name> <itemid>");
+                c.getPlayer().dropMessage(6, "!marry <name> <itemid>");
                 return 0;
             }
             int itemId = Integer.parseInt(splitted[2]);
             if (!GameConstants.isEffectRing(itemId)) {
-                c.getPlayer().dropMessage(6, "錯誤的物品ID.");
+                c.getPlayer().dropMessage(6, "錯誤的物品ID。");
             } else {
                 MapleCharacter fff = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
                 if (fff == null) {
-                    c.getPlayer().dropMessage(6, "玩家必須上線");
+                    c.getPlayer().dropMessage(6, "玩家必須上線。");
                 } else {
                     int[] ringID = {MapleInventoryIdentifier.getInstance(), MapleInventoryIdentifier.getInstance()};
                     try {
@@ -1010,12 +1047,12 @@ public class AdminCommand {
                         for (int i = 0; i < chrz.length; i++) {
                             Equip eq = (Equip) MapleItemInformationProvider.getInstance().getEquipById(itemId);
                             if (eq == null) {
-                                c.getPlayer().dropMessage(6, "錯誤的物品ID.");
+                                c.getPlayer().dropMessage(6, "錯誤的物品ID。");
                                 return 0;
                             }
                             eq.setUniqueId(ringID[i]);
                             MapleInventoryManipulator.addbyItem(chrz[i].getClient(), eq.copy());
-                            chrz[i].dropMessage(6, "成功與  " + chrz[i == 0 ? 1 : 0].getName() + " 結婚");
+                            chrz[i].dropMessage(6, "成功與  " + chrz[i == 0 ? 1 : 0].getName() + " 結婚！");
                         }
                         MapleRing.addToDB(itemId, c.getPlayer(), fff.getName(), fff.getId(), ringID);
                     } catch (SQLException e) {
@@ -1026,6 +1063,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class ItemCheck extends CommandExecute {
 
@@ -1048,18 +1086,21 @@ public class AdminCommand {
         }
     }
 
+
     public static class Vac extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             for (final MapleMapObject mmo : c.getPlayer().getMap().getAllMonstersThreadsafe()) {
                 final MapleMonster monster = (MapleMonster) mmo;
-                c.getPlayer().getMap().broadcastMessage(MobPacket.moveMonster(false, -1, 0, 0, 0, 0, monster.getObjectId(), monster.getPosition(), c.getPlayer().getPosition(), c.getPlayer().getLastRes()));
+                c.getPlayer().getMap().broadcastMessage(MobPacket.moveMonster(false, -1, 0, 0, 0, 0, monster.getObjectId(), monster.getPosition(),
+                        c.getPlayer().getPosition(), c.getPlayer().getLastRes()));
                 monster.setPosition(c.getPlayer().getPosition());
             }
             return 1;
         }
     }
+
 
     public static class Song extends CommandExecute {
 
@@ -1069,6 +1110,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class StartAutoEvent extends CommandExecute {
 
@@ -1082,6 +1124,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SetEvent extends CommandExecute {
 
         @Override
@@ -1090,6 +1133,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class CheckPoint extends CommandExecute {
 
@@ -1101,13 +1145,14 @@ public class AdminCommand {
             }
             MapleCharacter chrs = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chrs == null) {
-                c.getPlayer().dropMessage(6, "請確認有在正確的頻道");
+                c.getPlayer().dropMessage(6, "請確認有在正確的頻道。");
             } else {
-                c.getPlayer().dropMessage(6, chrs.getName() + " 有 " + chrs.getPoints() + " 點數.");
+                c.getPlayer().dropMessage(6, chrs.getName() + " 目前持有 " + chrs.getPoints() + " 點。");
             }
             return 1;
         }
     }
+
 
     public static class GivePoint extends CommandExecute {
 
@@ -1119,14 +1164,15 @@ public class AdminCommand {
             }
             MapleCharacter chrs = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chrs == null) {
-                c.getPlayer().dropMessage(6, "請確認有在正確的頻道");
+                c.getPlayer().dropMessage(6, "請確認有在正確的頻道。");
             } else {
                 chrs.setPoints(chrs.getPoints() + Integer.parseInt(splitted[2]));
-                c.getPlayer().dropMessage(6, "在您給了" + splitted[1] +" " + splitted[2]  + "點了之後 共擁有 " + chrs.getPoints() + " 點");
+                c.getPlayer().dropMessage(6, "在您給了" + splitted[1] + " " + splitted[2] + "點數了後共持有 " + chrs.getPoints() + " 點。");
             }
             return 1;
         }
     }
+
 
     public static class CheckVPoint extends CommandExecute {
 
@@ -1138,13 +1184,14 @@ public class AdminCommand {
             }
             MapleCharacter chrs = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chrs == null) {
-                c.getPlayer().dropMessage(6, "Make sure they are in the correct channel");
+                c.getPlayer().dropMessage(6, "請確認有在正確的頻道。");
             } else {
                 c.getPlayer().dropMessage(6, chrs.getName() + " has " + chrs.getVPoints() + " vpoints.");
             }
             return 1;
         }
     }
+
 
     public static class GiveVPoint extends CommandExecute {
 
@@ -1156,7 +1203,7 @@ public class AdminCommand {
             }
             MapleCharacter chrs = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chrs == null) {
-                c.getPlayer().dropMessage(6, "Make sure they are in the correct channel");
+                c.getPlayer().dropMessage(6, "請確認有在正確的頻道。");
             } else {
                 chrs.setVPoints(chrs.getVPoints() + Integer.parseInt(splitted[2]));
                 c.getPlayer().dropMessage(6, splitted[1] + " has " + chrs.getVPoints() + " vpoints, after giving " + splitted[2] + ".");
@@ -1164,6 +1211,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class StartEvent extends CommandExecute {
 
@@ -1174,11 +1222,12 @@ public class AdminCommand {
                 c.getPlayer().dropMessage(5, "Started the event and closed off");
                 return 1;
             } else {
-                c.getPlayer().dropMessage(5, "!scheduleevent must've been done first, and you must be in the event map.");
+                c.getPlayer().dropMessage(5, "!scheduleevent 必須先完成，且必須身處於活動地圖中。");
                 return 0;
             }
         }
     }
+
 
     public static class ScheduleEvent extends CommandExecute {
 
@@ -1186,7 +1235,7 @@ public class AdminCommand {
         public int execute(MapleClient c, String[] splitted) {
             final MapleEventType type = MapleEventType.getByString(splitted[1]);
             if (type == null) {
-                final StringBuilder sb = new StringBuilder("Wrong 指令規則: ");
+                final StringBuilder sb = new StringBuilder("錯誤的指法：上一個人刪掉後也沒寫我也不會通靈，抱歉囉。");
                 for (MapleEventType t : MapleEventType.values()) {
                     sb.append(t.name()).append(",");
                 }
@@ -1201,6 +1250,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class RemoveItem extends CommandExecute {
 
         @Override
@@ -1211,7 +1261,7 @@ public class AdminCommand {
             }
             MapleCharacter chr = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chr == null) {
-                c.getPlayer().dropMessage(6, "This player does not exist");
+                c.getPlayer().dropMessage(6, "此玩家不存在。");
                 return 0;
             }
             chr.removeAll(Integer.parseInt(splitted[2]));
@@ -1220,6 +1270,7 @@ public class AdminCommand {
 
         }
     }
+
 
     public static class LockItem extends CommandExecute {
 
@@ -1231,7 +1282,7 @@ public class AdminCommand {
             }
             MapleCharacter chr = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (chr == null) {
-                c.getPlayer().dropMessage(6, "This player does not exist");
+                c.getPlayer().dropMessage(6, "此玩家不存在。");
                 return 0;
             }
             int itemid = Integer.parseInt(splitted[2]);
@@ -1244,13 +1295,14 @@ public class AdminCommand {
                 type = MapleInventoryType.EQUIPPED;
                 for (IItem item : chr.getInventory(type).listById(itemid)) {
                     item.setFlag((byte) (item.getFlag() | ItemFlag.LOCK.getValue()));
-                    //chr.getClient().getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
+                    // chr.getClient().getSession().write(MaplePacketCreator.updateSpecialItemUse(item, type.getType()));
                 }
             }
             c.getPlayer().dropMessage(6, "All items with the ID " + splitted[2] + " has been locked from the inventory of " + splitted[1] + ".");
             return 1;
         }
     }
+
 
     public static class KillMap extends CommandExecute {
 
@@ -1268,15 +1320,18 @@ public class AdminCommand {
         }
     }
 
+
     public static class SpeakMega extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
-            World.Broadcast.broadcastSmega(MaplePacketCreator.serverNotice(3, victim == null ? c.getChannel() : victim.getClient().getChannel(), victim == null ? splitted[1] : victim.getName() + " : " + StringUtil.joinStringFrom(splitted, 2), true).getBytes());
+            World.Broadcast.broadcastSmega(MaplePacketCreator.serverNotice(3, victim == null ? c.getChannel() : victim.getClient().getChannel(),
+                    victim == null ? splitted[1] : victim.getName() + " : " + StringUtil.joinStringFrom(splitted, 2), true).getBytes());
             return 1;
         }
     }
+
 
     public static class Speak extends CommandExecute {
 
@@ -1284,7 +1339,7 @@ public class AdminCommand {
         public int execute(MapleClient c, String[] splitted) {
             MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
             if (victim == null) {
-                c.getPlayer().dropMessage(5, "找不到 '" + splitted[1]);
+                c.getPlayer().dropMessage(5, "找不到 " + splitted[1]);
                 return 0;
             } else {
                 victim.getMap().broadcastMessage(MaplePacketCreator.getChatText(victim.getId(), StringUtil.joinStringFrom(splitted, 2), victim.isGM(), 0));
@@ -1292,6 +1347,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class SpeakMap extends CommandExecute {
 
@@ -1306,6 +1362,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SpeakChn extends CommandExecute {
 
         @Override
@@ -1319,6 +1376,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SpeakWorld extends CommandExecute {
 
         @Override
@@ -1326,7 +1384,8 @@ public class AdminCommand {
             for (ChannelServer cserv : ChannelServer.getAllInstances()) {
                 for (MapleCharacter victim : cserv.getPlayerStorage().getAllCharacters()) {
                     if (victim.getId() != c.getPlayer().getId()) {
-                        victim.getMap().broadcastMessage(MaplePacketCreator.getChatText(victim.getId(), StringUtil.joinStringFrom(splitted, 1), victim.isGM(), 0));
+                        victim.getMap()
+                                .broadcastMessage(MaplePacketCreator.getChatText(victim.getId(), StringUtil.joinStringFrom(splitted, 1), victim.isGM(), 0));
                     }
                 }
             }
@@ -1334,12 +1393,14 @@ public class AdminCommand {
         }
     }
 
+
     public static class Disease extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length < 3) {
-                c.getPlayer().dropMessage(6, "!disease <type> [charname] <level> where type = SEAL/DARKNESS/WEAKEN/STUN/CURSE/POISON/SLOW/SEDUCE/REVERSE/ZOMBIFY/POTION/SHADOW/BLIND/FREEZE");
+                c.getPlayer().dropMessage(6,
+                        "!disease <type> [charname] <level> where type = SEAL/DARKNESS/WEAKEN/STUN/CURSE/POISON/SLOW/SEDUCE/REVERSE/ZOMBIFY/POTION/SHADOW/BLIND/FREEZE");
                 return 0;
             }
             int type = 0;
@@ -1373,7 +1434,8 @@ public class AdminCommand {
             } else if (splitted[1].equalsIgnoreCase("FREEZE")) {
                 type = 137;
             } else {
-                c.getPlayer().dropMessage(6, "!disease <type> [charname] <level> where type = SEAL/DARKNESS/WEAKEN/STUN/CURSE/POISON/SLOW/SEDUCE/REVERSE/ZOMBIFY/POTION/SHADOW/BLIND/FREEZE");
+                c.getPlayer().dropMessage(6,
+                        "!disease <type> [charname] <level> where type = SEAL/DARKNESS/WEAKEN/STUN/CURSE/POISON/SLOW/SEDUCE/REVERSE/ZOMBIFY/POTION/SHADOW/BLIND/FREEZE");
                 return 0;
             }
             dis = MapleDisease.getBySkill(type);
@@ -1398,22 +1460,14 @@ public class AdminCommand {
             return 1;
         }
     }
-    /*
-    public static class SQL extends CommandExecute {
 
-        @Override
-        public int execute(MapleClient c, String[] splitted) {
-            try {
-                PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(StringUtil.joinStringFrom(splitted, 1));
-                ps.executeUpdate();
-                ps.close();
-            } catch (SQLException e) {
-                c.getPlayer().dropMessage(6, "An error occurred : " + e.getMessage());
-            }
-            return 1;
-        }
-    }
-    */
+
+    /*
+     * public static class SQL extends CommandExecute {
+     * @Override public int execute(MapleClient c, String[] splitted) { try { PreparedStatement ps =
+     * DatabaseConnection.getConnection().prepareStatement(StringUtil.joinStringFrom(splitted, 1)); ps.executeUpdate(); ps.close(); } catch (SQLException e) {
+     * c.getPlayer().dropMessage(6, "An error occurred : " + e.getMessage()); } return 1; } }
+     */
     public static class StripEveryone extends CommandExecute {
 
         @Override
@@ -1437,6 +1491,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SendAllNote extends CommandExecute {
 
         @Override
@@ -1455,6 +1510,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class MesoEveryone extends CommandExecute {
 
         @Override
@@ -1468,6 +1524,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class CloneMe extends CommandExecute {
 
         @Override
@@ -1476,6 +1533,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class DisposeClones extends CommandExecute {
 
@@ -1486,6 +1544,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Monitor extends CommandExecute {
 
@@ -1508,6 +1567,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class PermWeather extends CommandExecute {
 
         @Override
@@ -1529,6 +1589,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class CharInfo extends CommandExecute {
 
@@ -1610,6 +1671,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class WhosThere extends CommandExecute {
 
         @Override
@@ -1630,6 +1692,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Cheaters extends CommandExecute {
 
         @Override
@@ -1642,6 +1705,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Connected extends CommandExecute {
 
@@ -1671,6 +1735,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ResetQuest extends CommandExecute {
 
         @Override
@@ -1679,6 +1744,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class StartQuest extends CommandExecute {
 
@@ -1689,6 +1755,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class CompleteQuest extends CommandExecute {
 
         @Override
@@ -1698,14 +1765,17 @@ public class AdminCommand {
         }
     }
 
+
     public static class FStartQuest extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            MapleQuest.getInstance(Integer.parseInt(splitted[1])).forceStart(c.getPlayer(), Integer.parseInt(splitted[2]), splitted.length >= 4 ? splitted[3] : null);
+            MapleQuest.getInstance(Integer.parseInt(splitted[1])).forceStart(c.getPlayer(), Integer.parseInt(splitted[2]),
+                    splitted.length >= 4 ? splitted[3] : null);
             return 1;
         }
     }
+
 
     public static class FCompleteQuest extends CommandExecute {
 
@@ -1716,23 +1786,28 @@ public class AdminCommand {
         }
     }
 
+
     public static class FStartOther extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            MapleQuest.getInstance(Integer.parseInt(splitted[2])).forceStart(c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]), Integer.parseInt(splitted[3]), splitted.length >= 4 ? splitted[4] : null);
+            MapleQuest.getInstance(Integer.parseInt(splitted[2])).forceStart(c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]),
+                    Integer.parseInt(splitted[3]), splitted.length >= 4 ? splitted[4] : null);
             return 1;
         }
     }
+
 
     public static class FCompleteOther extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            MapleQuest.getInstance(Integer.parseInt(splitted[2])).forceComplete(c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]), Integer.parseInt(splitted[3]));
+            MapleQuest.getInstance(Integer.parseInt(splitted[2])).forceComplete(c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]),
+                    Integer.parseInt(splitted[3]));
             return 1;
         }
     }
+
 
     public static class NearestPortal extends CommandExecute {
 
@@ -1745,6 +1820,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class SpawnDebug extends CommandExecute {
 
         @Override
@@ -1753,6 +1829,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Threads extends CommandExecute {
 
@@ -1774,6 +1851,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ShowTrace extends CommandExecute {
 
         @Override
@@ -1792,6 +1870,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class FakeRelog extends CommandExecute {
 
         @Override
@@ -1803,6 +1882,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class ToggleOffense extends CommandExecute {
 
@@ -1818,6 +1898,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class TDrops extends CommandExecute {
 
         @Override
@@ -1826,6 +1907,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class TMegaphone extends CommandExecute {
 
@@ -1836,6 +1918,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class SReactor extends CommandExecute {
 
@@ -1850,6 +1933,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class HReactor extends CommandExecute {
 
         @Override
@@ -1859,12 +1943,14 @@ public class AdminCommand {
         }
     }
 
+
     public static class DReactor extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             MapleMap map = c.getPlayer().getMap();
-            List<MapleMapObject> reactors = map.getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY, Arrays.asList(MapleMapObjectType.REACTOR));
+            List<MapleMapObject> reactors = map.getMapObjectsInRange(c.getPlayer().getPosition(), Double.POSITIVE_INFINITY,
+                    Arrays.asList(MapleMapObjectType.REACTOR));
             if (splitted[1].equals("all")) {
                 for (MapleMapObject reactorL : reactors) {
                     MapleReactor reactor2l = (MapleReactor) reactorL;
@@ -1877,6 +1963,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ResetReactor extends CommandExecute {
 
         @Override
@@ -1885,6 +1972,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class SetReactor extends CommandExecute {
 
@@ -1895,6 +1983,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class RemoveDrops extends CommandExecute {
 
         @Override
@@ -1904,6 +1993,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class ExpRate extends CommandExecute {
 
@@ -1926,6 +2016,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class DropRate extends CommandExecute {
 
         @Override
@@ -1946,6 +2037,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class MesoRate extends CommandExecute {
 
@@ -1968,6 +2060,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class CashRate extends CommandExecute {
 
         @Override
@@ -1989,16 +2082,14 @@ public class AdminCommand {
         }
     }
 
-    /*    public static class ListSquads extends CommandExecute {
 
-     @Override
-     public int execute(MapleClient c, String[] splitted) {
-     for (Entry<String, MapleSquad> squads : c.getChannelServer().getAllSquads().entrySet()) {
-     c.getPlayer().dropMessage(5, "TYPE: " + squads.getKey() + ", Leader: " + squads.getValue().getLeader().getName() + ", status: " + squads.getValue().getStatus() + ", numMembers: " + squads.getValue().getSquadSize() + ", numBanned: " + squads.getValue().getBannedMemberSize());
-     }
-     return 1;
-     }
-     }*/
+    /*
+     * public static class ListSquads extends CommandExecute {
+     * @Override public int execute(MapleClient c, String[] splitted) { for (Entry<String, MapleSquad> squads : c.getChannelServer().getAllSquads().entrySet())
+     * { c.getPlayer().dropMessage(5, "TYPE: " + squads.getKey() + ", Leader: " + squads.getValue().getLeader().getName() + ", status: " +
+     * squads.getValue().getStatus() + ", numMembers: " + squads.getValue().getSquadSize() + ", numBanned: " + squads.getValue().getBannedMemberSize()); }
+     * return 1; } }
+     */
     public static class ClearSquads extends CommandExecute {
 
         @Override
@@ -2010,6 +2101,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class SetInstanceProperty extends CommandExecute {
 
@@ -2028,6 +2120,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ListInstanceProperty extends CommandExecute {
 
         @Override
@@ -2037,12 +2130,14 @@ public class AdminCommand {
                 c.getPlayer().dropMessage(5, "none");
             } else {
                 for (EventInstanceManager eim : em.getInstances()) {
-                    c.getPlayer().dropMessage(5, "Event " + eim.getName() + ", eventManager: " + em.getName() + " iprops: " + eim.getProperty(splitted[2]) + ", eprops: " + em.getProperty(splitted[2]));
+                    c.getPlayer().dropMessage(5, "Event " + eim.getName() + ", eventManager: " + em.getName() + " iprops: " + eim.getProperty(splitted[2])
+                            + ", eprops: " + em.getProperty(splitted[2]));
                 }
             }
             return 1;
         }
     }
+
 
     public static class ListInstances extends CommandExecute {
 
@@ -2053,12 +2148,16 @@ public class AdminCommand {
                 c.getPlayer().dropMessage(5, "none");
             } else {
                 for (EventInstanceManager eim : em.getInstances()) {
-                    c.getPlayer().dropMessage(5, "Event " + eim.getName() + ", charSize: " + eim.getPlayers().size() + ", dcedSize: " + eim.getDisconnected().size() + ", mobSize: " + eim.getMobs().size() + ", eventManager: " + em.getName() + ", timeLeft: " + eim.getTimeLeft() + ", iprops: " + eim.getProperties().toString() + ", eprops: " + em.getProperties().toString());
+                    c.getPlayer().dropMessage(5,
+                            "Event " + eim.getName() + ", charSize: " + eim.getPlayers().size() + ", dcedSize: " + eim.getDisconnected().size() + ", mobSize: "
+                                    + eim.getMobs().size() + ", eventManager: " + em.getName() + ", timeLeft: " + eim.getTimeLeft() + ", iprops: "
+                                    + eim.getProperties().toString() + ", eprops: " + em.getProperties().toString());
                 }
             }
             return 1;
         }
     }
+
 
     public static class LeaveInstance extends CommandExecute {
 
@@ -2072,6 +2171,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class StartInstance extends CommandExecute {
 
@@ -2094,6 +2194,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class EventInstance extends CommandExecute {
 
         @Override
@@ -2102,11 +2203,15 @@ public class AdminCommand {
                 c.getPlayer().dropMessage(5, "none");
             } else {
                 EventInstanceManager eim = c.getPlayer().getEventInstance();
-                c.getPlayer().dropMessage(5, "Event " + eim.getName() + ", charSize: " + eim.getPlayers().size() + ", dcedSize: " + eim.getDisconnected().size() + ", mobSize: " + eim.getMobs().size() + ", eventManager: " + eim.getEventManager().getName() + ", timeLeft: " + eim.getTimeLeft() + ", iprops: " + eim.getProperties().toString() + ", eprops: " + eim.getEventManager().getProperties().toString());
+                c.getPlayer().dropMessage(5,
+                        "Event " + eim.getName() + ", charSize: " + eim.getPlayers().size() + ", dcedSize: " + eim.getDisconnected().size() + ", mobSize: "
+                                + eim.getMobs().size() + ", eventManager: " + eim.getEventManager().getName() + ", timeLeft: " + eim.getTimeLeft()
+                                + ", iprops: " + eim.getProperties().toString() + ", eprops: " + eim.getEventManager().getProperties().toString());
             }
             return 1;
         }
     }
+
 
     public static class Uptime extends CommandExecute {
 
@@ -2116,6 +2221,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class DCAll extends CommandExecute {
 
@@ -2144,6 +2250,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class GoTo extends CommandExecute {
 
@@ -2236,6 +2343,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class KillAll extends CommandExecute {
 
         @Override
@@ -2260,6 +2368,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ResetMobs extends CommandExecute {
 
         @Override
@@ -2268,6 +2377,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class KillMonster extends CommandExecute {
 
@@ -2286,6 +2396,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class KillMonsterByOID extends CommandExecute {
 
         @Override
@@ -2299,6 +2410,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class HitMonsterByOID extends CommandExecute {
 
@@ -2315,6 +2427,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class HitAll extends CommandExecute {
 
@@ -2341,6 +2454,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class HitMonster extends CommandExecute {
 
         @Override
@@ -2360,6 +2474,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class KillAllDrops extends CommandExecute {
 
         @Override
@@ -2368,7 +2483,8 @@ public class AdminCommand {
             double range = Double.POSITIVE_INFINITY;
 
             if (splitted.length > 1) {
-                //&& !splitted[0].equals("!killmonster") && !splitted[0].equals("!hitmonster") && !splitted[0].equals("!hitmonsterbyoid") && !splitted[0].equals("!killmonsterbyoid")) {
+                // && !splitted[0].equals("!killmonster") && !splitted[0].equals("!hitmonster") && !splitted[0].equals("!hitmonsterbyoid") &&
+                // !splitted[0].equals("!killmonsterbyoid")) {
                 int irange = Integer.parseInt(splitted[1]);
                 if (splitted.length <= 2) {
                     range = irange * irange;
@@ -2385,6 +2501,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class KillAllNoSpawn extends CommandExecute {
 
         @Override
@@ -2395,6 +2512,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class MonsterDebug extends CommandExecute {
 
         @Override
@@ -2403,7 +2521,8 @@ public class AdminCommand {
             double range = Double.POSITIVE_INFINITY;
 
             if (splitted.length > 1) {
-                //&& !splitted[0].equals("!killmonster") && !splitted[0].equals("!hitmonster") && !splitted[0].equals("!hitmonsterbyoid") && !splitted[0].equals("!killmonsterbyoid")) {
+                // && !splitted[0].equals("!killmonster") && !splitted[0].equals("!hitmonster") && !splitted[0].equals("!hitmonsterbyoid") &&
+                // !splitted[0].equals("!killmonsterbyoid")) {
                 int irange = Integer.parseInt(splitted[1]);
                 if (splitted.length <= 2) {
                     range = irange * irange;
@@ -2419,6 +2538,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class NPC extends CommandExecute {
 
@@ -2442,8 +2562,9 @@ public class AdminCommand {
             return 1;
         }
     }
-	
-	public static class PNPC extends CommandExecute {
+
+
+    public static class PNPC extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
@@ -2456,9 +2577,10 @@ public class AdminCommand {
                 npc.setRx1(c.getPlayer().getPosition().x - 50);
                 npc.setFh(c.getPlayer().getMap().getFootholds().findBelow(c.getPlayer().getPosition()).getId());
                 npc.setCustom(true);
-				
+
                 try {
-                    PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement("INSERT INTO spawns ( idd, f, fh, cy, rx0, rx1, type, x, y, mid ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+                    PreparedStatement ps = DatabaseConnection.getConnection()
+                            .prepareStatement("INSERT INTO spawns ( idd, f, fh, cy, rx0, rx1, type, x, y, mid ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
                     ps.setInt(1, npcId);
                     ps.setInt(2, 0);
                     ps.setInt(3, c.getPlayer().getMap().getFootholds().findBelow(c.getPlayer().getPosition()).getId());
@@ -2470,11 +2592,11 @@ public class AdminCommand {
                     ps.setInt(9, c.getPlayer().getPosition().y);
                     ps.setInt(10, c.getPlayer().getMapId());
                     ps.executeUpdate();
-                   } catch (SQLException SE) {
+                } catch (SQLException SE) {
                     System.err.println("SQL THROW");
                     SE.printStackTrace();
                 }
-				
+
                 c.getPlayer().getMap().addMapObject(npc);
                 c.getPlayer().getMap().broadcastMessage(MaplePacketCreator.spawnNPC(npc, true));
             } else {
@@ -2485,6 +2607,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class RemoveNPCs extends CommandExecute {
 
         @Override
@@ -2494,17 +2617,20 @@ public class AdminCommand {
         }
     }
 
+
     public static class LookNPC extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             for (MapleMapObject reactor1l : c.getPlayer().getMap().getAllNPCsThreadsafe()) {
                 MapleNPC reactor2l = (MapleNPC) reactor1l;
-                c.getPlayer().dropMessage(5, "NPC: oID: " + reactor2l.getObjectId() + " npcID: " + reactor2l.getId() + " Position: " + reactor2l.getPosition().toString() + " Name: " + reactor2l.getName());
+                c.getPlayer().dropMessage(5, "NPC: oID: " + reactor2l.getObjectId() + " npcID: " + reactor2l.getId() + " Position: "
+                        + reactor2l.getPosition().toString() + " Name: " + reactor2l.getName());
             }
             return 1;
         }
     }
+
 
     public static class LookReactor extends CommandExecute {
 
@@ -2512,22 +2638,26 @@ public class AdminCommand {
         public int execute(MapleClient c, String[] splitted) {
             for (MapleMapObject reactor1l : c.getPlayer().getMap().getAllReactorsThreadsafe()) {
                 MapleReactor reactor2l = (MapleReactor) reactor1l;
-                c.getPlayer().dropMessage(5, "Reactor: oID: " + reactor2l.getObjectId() + " reactorID: " + reactor2l.getReactorId() + " Position: " + reactor2l.getPosition().toString() + " State: " + reactor2l.getState() + " Name: " + reactor2l.getName());
+                c.getPlayer().dropMessage(5, "Reactor: oID: " + reactor2l.getObjectId() + " reactorID: " + reactor2l.getReactorId() + " Position: "
+                        + reactor2l.getPosition().toString() + " State: " + reactor2l.getState() + " Name: " + reactor2l.getName());
             }
             return 1;
         }
     }
+
 
     public static class LookPortals extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             for (MaplePortal portal : c.getPlayer().getMap().getPortals()) {
-                c.getPlayer().dropMessage(5, "Portal: ID: " + portal.getId() + " script: " + portal.getScriptName() + " name: " + portal.getName() + " pos: " + portal.getPosition().x + "," + portal.getPosition().y + " target: " + portal.getTargetMapId() + " / " + portal.getTarget());
+                c.getPlayer().dropMessage(5, "Portal: ID: " + portal.getId() + " script: " + portal.getScriptName() + " name: " + portal.getName() + " pos: "
+                        + portal.getPosition().x + "," + portal.getPosition().y + " target: " + portal.getTargetMapId() + " / " + portal.getTarget());
             }
             return 1;
         }
     }
+
 
     public static class MakePNPC extends CommandExecute {
 
@@ -2550,6 +2680,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class MakeOfflineP extends CommandExecute {
 
@@ -2574,6 +2705,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class DestroyPNPC extends CommandExecute {
 
         @Override
@@ -2595,15 +2727,18 @@ public class AdminCommand {
         }
     }
 
+
     public static class MyNPCPos extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             Point pos = c.getPlayer().getPosition();
-            c.getPlayer().dropMessage(6, "X: " + pos.x + " | Y: " + pos.y + " | RX0: " + (pos.x + 50) + " | RX1: " + (pos.x - 50) + " | FH: " + c.getPlayer().getFH() + "| CY:"+ pos.y);
+            c.getPlayer().dropMessage(6, "X: " + pos.x + " | Y: " + pos.y + " | RX0: " + (pos.x + 50) + " | RX1: " + (pos.x - 50) + " | FH: "
+                    + c.getPlayer().getFH() + "| CY:" + pos.y);
             return 1;
         }
     }
+
 
     public static class Notice extends CommandExecute {
 
@@ -2667,6 +2802,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Yellow extends CommandExecute {
 
         @Override
@@ -2682,7 +2818,8 @@ public class AdminCommand {
             if (range == -1) {
                 range = 2;
             }
-            MaplePacket packet = MaplePacketCreator.yellowChat((splitted[0].equals("!y") ? ("[" + c.getPlayer().getName() + "] ") : "") + StringUtil.joinStringFrom(splitted, 2));
+            MaplePacket packet = MaplePacketCreator
+                    .yellowChat((splitted[0].equals("!y") ? ("[" + c.getPlayer().getName() + "] ") : "") + StringUtil.joinStringFrom(splitted, 2));
             if (range == 0) {
                 c.getPlayer().getMap().broadcastMessage(packet);
             } else if (range == 1) {
@@ -2694,8 +2831,9 @@ public class AdminCommand {
         }
     }
 
-    public static class Y extends Yellow {
-    }
+
+    public static class Y extends Yellow {}
+
 
     public static class ReloadOps extends CommandExecute {
 
@@ -2707,6 +2845,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadDrops extends CommandExecute {
 
         @Override
@@ -2717,6 +2856,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadPortal extends CommandExecute {
 
         @Override
@@ -2726,6 +2866,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadShops extends CommandExecute {
 
         @Override
@@ -2734,6 +2875,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class ReloadEvents extends CommandExecute {
 
@@ -2746,6 +2888,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadQuests extends CommandExecute {
 
         @Override
@@ -2754,6 +2897,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Find extends CommandExecute {
 
@@ -2767,7 +2911,8 @@ public class AdminCommand {
                 String type = splitted[1];
                 String search = StringUtil.joinStringFrom(splitted, 2);
                 MapleData data = null;
-                MapleDataProvider dataProvider = MapleDataProviderFactory.getDataProvider(new File(System.getProperty("net.sf.odinms.wzpath") + "/" + "String.wz"));
+                MapleDataProvider dataProvider = MapleDataProviderFactory
+                        .getDataProvider(new File(System.getProperty("net.sf.odinms.wzpath") + "/" + "String.wz"));
                 c.getPlayer().dropMessage(6, "<<Type: " + type + " | Search: " + search + ">>");
 
                 if (type.equalsIgnoreCase("NPC")) {
@@ -2775,7 +2920,8 @@ public class AdminCommand {
                     data = dataProvider.getData("Npc.img");
                     List<Pair<Integer, String>> npcPairList = new LinkedList<Pair<Integer, String>>();
                     for (MapleData npcIdData : data.getChildren()) {
-                        npcPairList.add(new Pair<Integer, String>(Integer.parseInt(npcIdData.getName()), MapleDataTool.getString(npcIdData.getChildByPath("name"), "NO-NAME")));
+                        npcPairList.add(new Pair<Integer, String>(Integer.parseInt(npcIdData.getName()),
+                                MapleDataTool.getString(npcIdData.getChildByPath("name"), "NO-NAME")));
                     }
                     for (Pair<Integer, String> npcPair : npcPairList) {
                         if (npcPair.getRight().toLowerCase().contains(search.toLowerCase())) {
@@ -2796,7 +2942,9 @@ public class AdminCommand {
                     List<Pair<Integer, String>> mapPairList = new LinkedList<Pair<Integer, String>>();
                     for (MapleData mapAreaData : data.getChildren()) {
                         for (MapleData mapIdData : mapAreaData.getChildren()) {
-                            mapPairList.add(new Pair<Integer, String>(Integer.parseInt(mapIdData.getName()), MapleDataTool.getString(mapIdData.getChildByPath("streetName"), "NO-NAME") + " - " + MapleDataTool.getString(mapIdData.getChildByPath("mapName"), "NO-NAME")));
+                            mapPairList.add(new Pair<Integer, String>(Integer.parseInt(mapIdData.getName()),
+                                    MapleDataTool.getString(mapIdData.getChildByPath("streetName"), "NO-NAME") + " - "
+                                            + MapleDataTool.getString(mapIdData.getChildByPath("mapName"), "NO-NAME")));
                         }
                     }
                     for (Pair<Integer, String> mapPair : mapPairList) {
@@ -2816,7 +2964,8 @@ public class AdminCommand {
                     data = dataProvider.getData("Mob.img");
                     List<Pair<Integer, String>> mobPairList = new LinkedList<Pair<Integer, String>>();
                     for (MapleData mobIdData : data.getChildren()) {
-                        mobPairList.add(new Pair<Integer, String>(Integer.parseInt(mobIdData.getName()), MapleDataTool.getString(mobIdData.getChildByPath("name"), "NO-NAME")));
+                        mobPairList.add(new Pair<Integer, String>(Integer.parseInt(mobIdData.getName()),
+                                MapleDataTool.getString(mobIdData.getChildByPath("name"), "NO-NAME")));
                     }
                     for (Pair<Integer, String> mobPair : mobPairList) {
                         if (mobPair.getRight().toLowerCase().contains(search.toLowerCase())) {
@@ -2851,7 +3000,8 @@ public class AdminCommand {
                     data = dataProvider.getData("Skill.img");
                     List<Pair<Integer, String>> skillPairList = new LinkedList<Pair<Integer, String>>();
                     for (MapleData skillIdData : data.getChildren()) {
-                        skillPairList.add(new Pair<Integer, String>(Integer.parseInt(skillIdData.getName()), MapleDataTool.getString(skillIdData.getChildByPath("name"), "NO-NAME")));
+                        skillPairList.add(new Pair<Integer, String>(Integer.parseInt(skillIdData.getName()),
+                                MapleDataTool.getString(skillIdData.getChildByPath("name"), "NO-NAME")));
                     }
                     for (Pair<Integer, String> skillPair : skillPairList) {
                         if (skillPair.getRight().toLowerCase().contains(search.toLowerCase())) {
@@ -2873,14 +3023,15 @@ public class AdminCommand {
         }
     }
 
-    public static class ID extends Find {
-    }
 
-    public static class LookUp extends Find {
-    }
+    public static class ID extends Find {}
 
-    public static class Search extends Find {
-    }
+
+    public static class LookUp extends Find {}
+
+
+    public static class Search extends Find {}
+
 
     public static class ServerMessage extends CommandExecute {
 
@@ -2894,6 +3045,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Spawn extends CommandExecute {
 
@@ -2946,6 +3098,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Test extends CommandExecute {
 
         @Override
@@ -2954,6 +3107,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Test2 extends CommandExecute {
 
@@ -2965,6 +3119,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Clock extends CommandExecute {
 
         @Override
@@ -2973,6 +3128,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class Packet extends CommandExecute {
 
@@ -2987,18 +3143,21 @@ public class AdminCommand {
         }
     }
 
+
     public static class PacketToServer extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             if (splitted.length > 1) {
-                c.getChannelServer().getServerHandler().messageReceived(c.getSession(), (Object) MaplePacketCreator.getPacketFromHexString(StringUtil.joinStringFrom(splitted, 1)).getBytes());
+                c.getChannelServer().getServerHandler().messageReceived(c.getSession(),
+                        (Object) MaplePacketCreator.getPacketFromHexString(StringUtil.joinStringFrom(splitted, 1)).getBytes());
             } else {
                 c.getPlayer().dropMessage(6, "Please enter packet data!");
             }
             return 1;
         }
     }
+
 
     public static class Warp extends CommandExecute {
 
@@ -3037,6 +3196,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class WarpMapTo extends CommandExecute {
 
         @Override
@@ -3049,11 +3209,12 @@ public class AdminCommand {
                 }
             } catch (Exception e) {
                 c.getPlayer().dropMessage(5, "Error: " + e.getMessage());
-                return 0; //assume drunk GM
+                return 0; // assume drunk GM
             }
             return 1;
         }
     }
+
 
     public static class WarpHere extends CommandExecute {
 
@@ -3081,6 +3242,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class LOLCastle extends CommandExecute {
 
         @Override
@@ -3089,12 +3251,14 @@ public class AdminCommand {
                 c.getPlayer().dropMessage(6, "Syntax: !lolcastle level (level = 1-5)");
                 return 0;
             }
-            MapleMap target = c.getChannelServer().getEventSM().getEventManager("lolcastle").getInstance("lolcastle" + splitted[1]).getMapFactory().getMap(990000300, false, false);
+            MapleMap target = c.getChannelServer().getEventSM().getEventManager("lolcastle").getInstance("lolcastle" + splitted[1]).getMapFactory()
+                    .getMap(990000300, false, false);
             c.getPlayer().changeMap(target, target.getPortal(0));
 
             return 1;
         }
     }
+
 
     public static class Map extends CommandExecute {
 
@@ -3125,13 +3289,14 @@ public class AdminCommand {
         }
     }
 
+
     public static class StartProfiling extends CommandExecute {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
             CPUSampler sampler = CPUSampler.getInstance();
             sampler.addIncluded("client");
-            sampler.addIncluded("constants"); //or should we do Packages.constants etc.?
+            sampler.addIncluded("constants"); // or should we do Packages.constants etc.?
             sampler.addIncluded("database");
             sampler.addIncluded("handling");
             sampler.addIncluded("provider");
@@ -3142,6 +3307,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public static class StopProfiling extends CommandExecute {
 
@@ -3170,6 +3336,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ReloadMap extends CommandExecute {
 
         @Override
@@ -3190,6 +3357,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class Respawn extends CommandExecute {
 
         @Override
@@ -3199,6 +3367,7 @@ public class AdminCommand {
         }
     }
 
+
     public static class ResetMap extends CommandExecute {
 
         @Override
@@ -3207,6 +3376,7 @@ public class AdminCommand {
             return 1;
         }
     }
+
 
     public abstract static class TestTimer extends CommandExecute {
 
@@ -3219,59 +3389,53 @@ public class AdminCommand {
             final long oldMillis = System.currentTimeMillis();
             toTest.schedule(new Runnable() {
                 public void run() {
-                    c.getPlayer().dropMessage(5, "Message has popped up in " + ((System.currentTimeMillis() - oldMillis) / 1000) + " seconds, expected was " + sec + " seconds");
+                    c.getPlayer().dropMessage(5,
+                            "Message has popped up in " + ((System.currentTimeMillis() - oldMillis) / 1000) + " seconds, expected was " + sec + " seconds");
                 }
             }, sec * 1000);
             return 1;
         }
     }
 
+
     public static class TestEventTimer extends TestTimer {
 
-        public TestEventTimer() {
-            toTest = EventTimer.getInstance();
-        }
+        public TestEventTimer() { toTest = EventTimer.getInstance(); }
     }
+
 
     public static class TestCloneTimer extends TestTimer {
 
-        public TestCloneTimer() {
-            toTest = CloneTimer.getInstance();
-        }
+        public TestCloneTimer() { toTest = CloneTimer.getInstance(); }
     }
+
 
     public static class TestEtcTimer extends TestTimer {
 
-        public TestEtcTimer() {
-            toTest = EtcTimer.getInstance();
-        }
+        public TestEtcTimer() { toTest = EtcTimer.getInstance(); }
     }
+
 
     public static class TestMobTimer extends TestTimer {
 
-        public TestMobTimer() {
-            toTest = MobTimer.getInstance();
-        }
+        public TestMobTimer() { toTest = MobTimer.getInstance(); }
     }
+
 
     public static class TestMapTimer extends TestTimer {
 
-        public TestMapTimer() {
-            toTest = MapTimer.getInstance();
-        }
+        public TestMapTimer() { toTest = MapTimer.getInstance(); }
     }
+
 
     public static class TestWorldTimer extends TestTimer {
 
-        public TestWorldTimer() {
-            toTest = WorldTimer.getInstance();
-        }
+        public TestWorldTimer() { toTest = WorldTimer.getInstance(); }
     }
+
 
     public static class TestBuffTimer extends TestTimer {
 
-        public TestBuffTimer() {
-            toTest = BuffTimer.getInstance();
-        }
+        public TestBuffTimer() { toTest = BuffTimer.getInstance(); }
     }
 }
