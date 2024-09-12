@@ -77,7 +77,7 @@ public class Start {
         }
         World.registerRespawn();
         LoginServer.setOn();
-        System.out.println(String.format("Server is hosting on: %s :::", ServerProperties.getProperty("tms.IP")));
+        System.out.println(String.format("Server is hosting on: %s", ServerProperties.getProperty("tms.IP")));
         System.gc();
         PingTimer.getInstance().register(System::gc, 1800000);
     }
