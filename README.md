@@ -60,6 +60,9 @@ WIP...`
 
 #### Editor
 
+> [!NOTE]
+> If you wish a easy and faster build process, run `make` alternatively.
+
 1. Make sure you have JDK 1.8 installed
 
    ```sh
