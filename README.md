@@ -9,7 +9,7 @@ Future work will be tracked and documented in the issues tab.
 - [x] Clean up and reconstruct project.
 - [x] SQL refactors.
 - [x] Build validation.
-- [ ] Build information.
+- [x] Build information.
 - [x] License validation.
 - [ ] Move all author mention in `/scipts/*.js` to `README.md`.
 
