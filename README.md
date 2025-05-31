@@ -36,15 +36,81 @@ Future work will be tracked and documented in the issues tab.
 1. Create new database named `maplestory`.
 2. Run all `.sql` script inside `/sql`.
 
-### Run
-
-To run the project from the command line, go to the dist folder and type the following command:
-
-```shell
+```sh
 java -jar "TMS120.jar"
 ```
 
-## Distribution
+### Compile
+
+To build the server, there are several way you can make it.
+
+#### IntelliJ
+
+1. Clone this repository and then open in IDE
+2. Open "File" > "Propject Structure" and follow setting under this section
+   1. Project
+      1. Project SDK: `corretto-1.8`
+      2. Language Level: `SDK default`
+      3. Compiler Output: `/MapleStory TMS v120 old/out`
+   2. Libraries
+      1. New Module
+      2. Add all .jar listed in `lib/jar
+
+WIP...`
+
+#### Editor
+
+1. Make sure you have JDK 1.8 installed
+
+   ```sh
+   $ java -version
+   openjdk version "1.8.0_452"
+   OpenJDK Runtime Environment (build 1.8.0_452-b09)
+   OpenJDK 64-Bit Server VM (build 25.452-b09, mixed mode)
+   ```
+
+2. Open the repository in editory
+3. Create `out` and `dist` directory, and your structure should look like this:
+
+   ```plain
+   .
+   ├── dist/  (new created)
+   ├── lib/
+   ├── log/
+   ├── out/   (new created)
+   ├── sql/
+   ├── src/
+   ├── wz/
+   ├── Launcher.bat
+   ├── LICENSE-GPL
+   ├── LICENSE-MIT
+   ├── MANIFEST.MF
+   ├── README.md
+   └── Settings.ini
+   ```
+
+4. Run the following command in the shell:
+
+   ```sh
+   mkdir -p out
+   javac -cp "lib/jar/*" -d out $(find src -name "*.java")
+   ```
+
+5. To create the JAR file (replace `TMS120.jar` and `MANIFEST.MF` as needed)
+
+   ```sh
+   jar cvfm dist/TMS120.jar MANIFEST.MF -C out .
+   ```
+
+### Run
+
+To run the server from command line, entewr following command in shell:
+
+```sh
+java -Xmx512M -server -Dnet.sf.odinms.wzpath=wz -jar dist/TMS120.jar
+```
+
+### Distribution
 
 When you build an Java application project that has a main class, the IDE automatically copies all of the JAR files on the projects classpath to your projects dist/lib folder. The IDE also adds each of the JAR files to the Class-Path element in the application JAR files manifest file (MANIFEST.MF).
 
