@@ -15,6 +15,10 @@ Future work will be tracked and documented in the issues tab.
 
 ## Roadmap
 
+### Server
+
+- [ ] Docker hosting
+
 ### Client
 
 - [ ] Cash shop remove duplicates.
