@@ -56,7 +56,7 @@ To build the server, there are several way you can make it.
       1. New Module
       2. Add all .jar listed in `lib/jar
 
-WIP...`
+WIP...
 
 #### Editor
 
