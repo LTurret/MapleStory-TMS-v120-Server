@@ -21,14 +21,16 @@ Future work will be tracked and documented in the issues tab.
 
 ### Client
 
-- [ ] Cash shop remove duplicates.
-- [ ] Localization.
-- [ ] Script Patch.
-- [ ] Client updates.
+- [ ] Cash shop remove duplicates
+- [ ] Localization
+- [ ] Script Patch
+- [ ] Client updates
 
-### Game Features
+### Game Overhaul
 
-- [ ] Party quests.
+- [ ] Drop rates adjustment for single mob
+- [ ] Party quests
+- [ ] Class skills improvement
 
 ## Build
 
@@ -46,7 +48,7 @@ java -jar "TMS120.jar"
 
 ### Compile
 
-To build the server, there are several way you can make it.
+There are IDE and editor approach for build the server.
 
 #### IntelliJ
 
@@ -76,7 +78,7 @@ WIP...
    OpenJDK 64-Bit Server VM (build 25.452-b09, mixed mode)
    ```
 
-2. Open the repository in editory
+2. Open the repository in editor
 3. Create `out` and `dist` directory, and your structure should look like this:
 
    ```plain
@@ -99,7 +101,6 @@ WIP...
 4. Run the following command in the shell:
 
    ```sh
-   mkdir -p out
    javac -cp "lib/jar/*" -d out $(find src -name "*.java")
    ```
 
@@ -111,7 +112,7 @@ WIP...
 
 ### Run
 
-To run the server from command line, entewr following command in shell:
+To run the server from command line, enter following command:
 
 ```sh
 java -Xmx512M -server -Dnet.sf.odinms.wzpath=wz -jar dist/TMS120.jar
