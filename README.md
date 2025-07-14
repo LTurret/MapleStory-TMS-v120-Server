@@ -17,17 +17,17 @@ Future work will be tracked and documented in the issues tab.
 
 ### Server
 
-- [ ] Docker hosting
+- [x] Docker hosting
 
 ### Client
 
-- [ ] Cash shop remove duplicates
 - [ ] Localization
 - [ ] Script Patch
 - [ ] Client updates
 
 ### Game Overhaul
 
+- [ ] Cash shop remove duplicates
 - [ ] Drop rates adjustment for single mob
 - [ ] Party quests
 - [ ] Class skills improvement
@@ -36,38 +36,39 @@ Future work will be tracked and documented in the issues tab.
 
 ### Database
 
-> [!IMPORTANT]
-> Run `maplestory.sql` first.
+1. Create new database named `MapleStory` (case-sensitive).
+2. Follow the order and run all `.sql` inside `/sql`.
 
-1. Create new database named `maplestory`.
-2. Run all `.sql` script inside `/sql`.
+Alternatively, you can hosting the database using docker:
 
 ```sh
-java -jar "TMS120.jar"
+sudo docker compose up -d
 ```
 
-### Compile
+### Compiling
 
-There are IDE and editor approach for build the server.
+There are three approaches for compiling the server.
 
-#### IntelliJ
+#### make
 
-1. Clone this repository and then open in IDE
-2. Open "File" > "Propject Structure" and follow setting under this section
-   1. Project
-      1. Project SDK: `corretto-1.8`
-      2. Language Level: `SDK default`
-      3. Compiler Output: `/MapleStory TMS v120 old/out`
-   2. Libraries
-      1. New Module
-      2. Add all .jar listed in `lib/jar
+```sh
+make
+```
 
-WIP...
+> You might see the same result as follow:
+>
+> ```sh
+> $ make
+> jar cvfm dist/TMS120.jar MANIFEST.MF -C out .
+> ...
+> Build complete: dist/TMS120.jar
+> ```
 
 #### Editor
 
-> [!NOTE]
-> If you wish an easy and faster build process, run `make` alternatively.
+> [!IMPORTANT]
+>
+> Current solution are test and documented based on a linux pc (I use arch, btw), open issue if you encounter any issue with Windows.
 
 1. Make sure you have JDK 1.8 installed
 
@@ -79,36 +80,58 @@ WIP...
    ```
 
 2. Open the repository in editor
+
+   ```sh
+   $ pwd
+   /home/lturret/gits/maple
+   ```
+
 3. Create `out` and `dist` directory, and your structure should look like this:
 
    ```plain
    .
-   ├── dist/  (new created)
-   ├── lib/
-   ├── log/
-   ├── out/   (new created)
-   ├── sql/
-   ├── src/
-   ├── wz/
+   ├── dist  (new created)
+   ├── lib
+   ├── log
+   ├── out   (new created)
+   ├── sql
+   ├── src
+   ├── wz
+   ├── docker-compose.yml
    ├── Launcher.bat
    ├── LICENSE-GPL
    ├── LICENSE-MIT
+   ├── makefile
    ├── MANIFEST.MF
    ├── README.md
    └── Settings.ini
    ```
 
-4. Run the following command in the shell:
+4. To compiling the source, run the following command:
 
    ```sh
    javac -cp "lib/jar/*" -d out $(find src -name "*.java")
    ```
 
-5. To create the JAR file (replace `TMS120.jar` and `MANIFEST.MF` as needed)
+5. To create the JAR file (replace `TMS120.jar` and `MANIFEST.MF` as needed), use following command:
 
    ```sh
    jar cvfm dist/TMS120.jar MANIFEST.MF -C out .
    ```
+
+#### IntelliJ
+
+1. Clone this repository and then open in IDE
+2. Open "File" > "Propject Structure" and follow setting under this section
+   1. Project
+      1. Project SDK: `corretto-1.8`
+      2. Language Level: `SDK default`
+      3. Compiler Output: `/MapleStory TMS v120 old/out`
+   2. Libraries
+      1. New Module
+      2. Add all .jar listed in `lib/jar`
+
+WIP...
 
 ### Run
 
