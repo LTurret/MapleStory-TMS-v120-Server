@@ -115,7 +115,7 @@ WIP...
 To run the server from command line, enter following command:
 
 ```sh
-java -Xmx512M -server -Dnet.sf.odinms.wzpath=wz -jar dist/TMS120.jar
+java -Xmx2048m -server -cp "dist/TMS120.jar:lib/jar/*" -Dnet.sf.odinms.wzpath=wz server.Start
 ```
 
 ### Distribution
