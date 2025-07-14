@@ -1,0 +1,11 @@
+services:
+    db:
+        image: mariadb:11
+        environment:
+            MARIADB_ROOT_PASSWORD: tms120opensource
+            MARIADB_DATABASE: MapleStory
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./sql:/docker-entrypoint-initdb.d
+        restart: unless-stopped
