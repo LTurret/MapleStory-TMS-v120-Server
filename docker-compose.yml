@@ -9,3 +9,28 @@ services:
         volumes:
             - ./sql:/docker-entrypoint-initdb.d
         restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-ptms120opensource"]
+            interval: 5s
+            timeout: 3s
+            retries: 5
+
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            db:
+                condition: service_healthy
+        restart: unless-stopped
+        expose:
+            - "8484"
+        ports:
+            - "8484:8484"
+            - "8586:8586"
+            - "8587:8587"
+            - "8596:8596"
+        environment:
+            DB_HOST: db
+        networks:
+            - default
