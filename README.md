@@ -83,22 +83,23 @@ make
 
    ```sh
    $ pwd
-   /home/lturret/gits/maple
+   /MapleStory-TMS-v120-Server
    ```
 
 3. Create `out` and `dist` directory, and your structure should look like this:
 
    ```plain
    .
-   ├── dist  (new created)
+   ├── dist   (new created)
    ├── lib
    ├── log
-   ├── out   (new created)
+   ├── out    (new created)
    ├── sql
    ├── src
    ├── wz
    ├── docker-compose.yml
-   ├── Launcher.bat
+   ├── launcher.bat
+   ├── launch.sh
    ├── LICENSE-GPL
    ├── LICENSE-MIT
    ├── makefile
@@ -135,7 +136,7 @@ WIP...
 
 ### Run
 
-To run the server from command line, enter following command:
+To run the server, enter following command:
 
 ```sh
 java -Xmx2048m -server -cp "dist/TMS120.jar:lib/jar/*" -Dnet.sf.odinms.wzpath=wz server.Start
