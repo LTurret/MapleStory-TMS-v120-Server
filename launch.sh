@@ -1,0 +1,1 @@
+java -Xmx2048m -server -cp "dist/TMS120.jar:lib/jar/*" -Dnet.sf.odinms.wzpath=wz server.Start
