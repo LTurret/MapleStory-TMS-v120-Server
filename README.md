@@ -2,36 +2,6 @@
 
 A server dedicated to hosting the Taiwan MapleStory version 1.20 Server.
 
-## TODO
-
-Future work will be tracked and documented in the issues tab.
-
-- [x] Clean up and reconstruct project.
-- [x] SQL refactors.
-- [x] Build validation.
-- [x] Build information.
-- [x] License validation.
-- [ ] Move all author mention in `/scipts/*.js` to `README.md`.
-
-## Roadmap
-
-### Server
-
-- [x] Docker hosting
-
-### Client
-
-- [ ] Localization
-- [ ] Script Patch
-- [ ] Client updates
-
-### Game Overhaul
-
-- [ ] Cash shop remove duplicates
-- [ ] Drop rates adjustment for single mob
-- [ ] Party quests
-- [ ] Class skills improvement
-
 ## Build
 
 ### Database
