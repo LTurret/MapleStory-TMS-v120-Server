@@ -1,9 +1,9 @@
 var setupTask;
- 
+
 function init() {
     scheduleNew();
 }
- 
+
 function scheduleNew() {
     var cal = java.util.Calendar.getInstance();
     cal.set(java.util.Calendar.HOUR, 0);
@@ -15,13 +15,13 @@ function scheduleNew() {
     }
     setupTask = em.scheduleAtTimestamp("start", nextTime);
 }
- 
+
 function cancelSchedule() {
     setupTask.cancel(true);
 }
- 
+
 function start() {
     scheduleNew();
     em.getChannelServer().SaveAll(); //此處是執行存檔動做
-    em.getChannelServer().ChannelBroadcastMSG(0,"系統自動存檔。"); //發出系統訊息
+    em.getChannelServer().ChannelBroadcastMSG(0, "系統自動存檔。"); //發出系統訊息
 }
