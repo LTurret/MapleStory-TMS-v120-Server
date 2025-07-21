@@ -127,9 +127,4 @@ To distribute this project, compress up the `/dist` (including the `.jar`) and d
 
 ## License
 
-This project is dual-licensed under the MIT and GPL-3.0 licenses.
-
-- The original code and any modifications to it are licensed under the [GPL-3.0 license](./LICENSE-GPL).
-- Any new code added by **LTurret** that does not modify the original GPL code is licensed under the [MIT license](./LICENSE-MIT).
-
-You may choose to use, modify, and distribute this project under either of these licenses.
+This project is licensed under the [GPL licenses](./LICENSE-GPL).
