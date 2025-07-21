@@ -2,7 +2,9 @@
 
 A server dedicated to hosting the Taiwan MapleStory version 1.20 Server.
 
-## Build
+English｜[繁體中文](./README_zh-TW.md)
+
+## Getting Start
 
 ### Database
 
@@ -12,12 +14,18 @@ A server dedicated to hosting the Taiwan MapleStory version 1.20 Server.
 Alternatively, you can hosting the database using docker:
 
 ```sh
-sudo docker compose up -d
+docker compose up db -d
 ```
 
-### Compiling
+### Server
 
 There are three approaches for compiling the server.
+
+#### docker
+
+```sh
+docker compose up server -d
+```
 
 #### make
 
@@ -25,22 +33,9 @@ There are three approaches for compiling the server.
 make
 ```
 
-> You might see the same result as follow:
->
-> ```sh
-> $ make
-> jar cvfm dist/TMS120.jar MANIFEST.MF -C out .
-> ...
-> Build complete: dist/TMS120.jar
-> ```
+#### From-Scratch
 
-#### Editor
-
-> [!IMPORTANT]
->
-> Current solution are test and documented based on a linux pc (I use arch, btw), open issue if you encounter any issue with Windows.
-
-1. Make sure you have JDK 1.8 installed
+1. Make sure you have JDK 1.8 installed.
 
    ```sh
    $ java -version
@@ -49,7 +44,7 @@ make
    OpenJDK 64-Bit Server VM (build 25.452-b09, mixed mode)
    ```
 
-2. Open the repository in editor
+2. Open the repository in editor.
 
    ```sh
    $ pwd
@@ -90,21 +85,7 @@ make
    jar cvfm dist/TMS120.jar MANIFEST.MF -C out .
    ```
 
-#### IntelliJ
-
-1. Clone this repository and then open in IDE
-2. Open "File" > "Propject Structure" and follow setting under this section
-   1. Project
-      1. Project SDK: `corretto-1.8`
-      2. Language Level: `SDK default`
-      3. Compiler Output: `/MapleStory TMS v120 old/out`
-   2. Libraries
-      1. New Module
-      2. Add all .jar listed in `lib/jar`
-
-WIP...
-
-### Run
+## Run
 
 To run the server, enter following command:
 
@@ -112,7 +93,7 @@ To run the server, enter following command:
 java -Xmx2048m -server -cp "dist/TMS120.jar:lib/jar/*" -Dnet.sf.odinms.wzpath=wz server.Start
 ```
 
-### Distribution
+## Distribution
 
 When you build an Java application project that has a main class, the IDE automatically copies all of the JAR files on the projects classpath to your projects dist/lib folder. The IDE also adds each of the JAR files to the Class-Path element in the application JAR files manifest file (MANIFEST.MF).
 
